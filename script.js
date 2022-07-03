@@ -24,7 +24,7 @@ function addCountry(selectedCountry) {
   } else {
     countries.forEach((country) => {
       let isSelected = country == selectedCountry ? "selected" : "";
-      let li = `<li onclick="updateName(this)" class="${isSelected}">${country}</li>`;
+      let li = `<li onclick="updateName(this)" class="${isSelected}"><img class="icon" src="https://countryflagsapi.com/png/${country}"> ${country}</li>`;
       options.insertAdjacentHTML("beforeend", li);
     });
   }
@@ -45,7 +45,10 @@ searchInput.addEventListener("keyup", () => {
     .filter((data) => {
       return data.toLowerCase().startsWith(searchVal);
     })
-    .map((data) => `<li onclick="updateName(this)">${data}</li>`)
+    .map(
+      (data) =>
+        `<li onclick="updateName(this)"><img class="icon" src="https://countryflagsapi.com/png/${data}">${data}</li>`
+    )
     .join("");
 
   options.innerHTML = arr ? arr : `<p>Ooops! country not found</p>`;

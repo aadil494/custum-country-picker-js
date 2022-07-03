@@ -4,61 +4,30 @@ options = container.querySelector(".options");
 searchInput = container.querySelector("input");
 
 // Array of some countries
-let countries = [
-  "Afghanistan",
-  "Algeria",
-  "Argentina",
-  "Australia",
-  "Bangladesh",
-  "Belgium",
-  "Bhutan",
-  "Brazil",
-  "Canada",
-  "China",
-  "Denmark",
-  "Ethiopia",
-  "Finland",
-  "France",
-  "Germany",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
-  "Iran",
-  "Italy",
-  "Japan",
-  "Malaysia",
-  "Maldives",
-  "Mexico",
-  "Morocco",
-  "Nepal",
-  "Netherlands",
-  "Nigeria",
-  "Norway",
-  "Pakistan",
-  "Peru",
-  "Russia",
-  "Romania",
-  "South Africa",
-  "Spain",
-  "Sri Lanka",
-  "Sweden",
-  "Switzerland",
-  "Thailand",
-  "Turkey",
-  "Uganda",
-  "Ukraine",
-  "United States",
-  "United Kingdom",
-  "Vietnam",
-];
 
+let countries = [];
+
+// Get the countries from api
+let getCountries = function () {
+  return fetch("https://countriesnow.space/api/v0.1/countries/")
+    .then((response) => response.json())
+    .then((data) => {
+      countries = data.data.map((item) => {
+        return item.country;
+      });
+      addCountry();
+    });
+};
 function addCountry(selectedCountry) {
-  countries.forEach((country) => {
-    let isSelected = country == selectedCountry ? "selected" : "";
-    let li = `<li onclick="updateName(this)" class="${isSelected}">${country}</li>`;
-    options.insertAdjacentHTML("beforeend", li);
-  });
+  if (countries.length < 1) {
+    getCountries();
+  } else {
+    countries.forEach((country) => {
+      let isSelected = country == selectedCountry ? "selected" : "";
+      let li = `<li onclick="updateName(this)" class="${isSelected}">${country}</li>`;
+      options.insertAdjacentHTML("beforeend", li);
+    });
+  }
 }
 
 function updateName(selectedLi) {
